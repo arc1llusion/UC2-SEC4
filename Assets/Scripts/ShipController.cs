@@ -31,6 +31,8 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     float controlRollFactor = -25;
 
+    public bool isControlEnabled = true;
+
     // Use this for initialization
     void Start()
     {
@@ -40,9 +42,13 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessTranslation();
-        ProcessRotation();
+        if (isControlEnabled)
+        {
+            ProcessTranslation();
+            ProcessRotation();
+        }
     }
+
     private void ProcessTranslation()
     {
         float xRaw = CalculateOffset(CommonAxis.Horizontal, transform.localPosition.x, Speed.x, Range.x);
@@ -66,7 +72,6 @@ public class ShipController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
 
-
     float CalculateOffset(CommonAxis axis, float localPosition, float speed, float range)
     {
         float axisThrow = CrossPlatformInputManager.GetAxis(axis.ToString());
@@ -74,5 +79,10 @@ public class ShipController : MonoBehaviour
         float raw = Mathf.Clamp(localPosition + offset, -range, range);
 
         return raw;
+    }
+
+    public void OnPlayerDeath()
+    {
+        isControlEnabled = false;
     }
 }

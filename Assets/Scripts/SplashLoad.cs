@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MusicPlayer : MonoBehaviour {
+public class SplashLoad : MonoBehaviour {
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+	// Use this for initialization
+	void Start () {
 
-    // Use this for initialization
-    void Start () {
         Invoke("LoadFirstScene", 2f);
+    }
+	
+	// Update is called once per frame
+	void Update () {
+		
 	}
 
     void LoadFirstScene()
