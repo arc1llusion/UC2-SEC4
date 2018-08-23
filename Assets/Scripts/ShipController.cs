@@ -33,16 +33,14 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     float controlRollFactor = -25;
 
-    private ParticleSystem[] bullets;
+    [SerializeField]
+    GameObject[] guns;
 
     public bool isControlEnabled = true;
 
     // Use this for initialization
     void Start()
     {
-        bullets = GetComponentsInChildren<ParticleSystem>().Where(p => p.gameObject.name.ToUpper().Contains("BULLET")).ToArray();
-
-        Debug.Log(bullets.Length);
     }
 
     // Update is called once per frame
@@ -60,17 +58,11 @@ public class ShipController : MonoBehaviour
     {
         if(CrossPlatformInputManager.GetButtonDown(CommonAxis.Fire1.ToString()))
         {
-            foreach(var bullet in bullets)
-            {
-                bullet.Play();
-            }
+            ActivateGuns();
         }
         else if(CrossPlatformInputManager.GetButtonUp(CommonAxis.Fire1.ToString()))
         {
-            foreach(var bullet in bullets)
-            {
-                bullet.Stop();
-            }
+            DeactivateGuns();
         }
     }
 
@@ -86,8 +78,6 @@ public class ShipController : MonoBehaviour
     {
         float xThrow = CrossPlatformInputManager.GetAxis(CommonAxis.Horizontal.ToString());
         float yThrow = CrossPlatformInputManager.GetAxis(CommonAxis.Vertical.ToString());
-
-        Debug.Log("x Throw" + xThrow);
 
         float pitchDueToPosition = transform.localPosition.y * pitchFactor;
         float pitchDueToControlFlow = yThrow * controlPitchFactor;
@@ -111,9 +101,22 @@ public class ShipController : MonoBehaviour
     public void OnPlayerDeath()
     {
         isControlEnabled = false;
-        foreach (var bullet in bullets)
+        DeactivateGuns();
+    }
+
+    private void ActivateGuns()
+    {
+        foreach (var gun in guns)
         {
-            bullet.Stop();
+            gun.SetActive(true);
+        }
+    }
+
+    private void DeactivateGuns()
+    {
+        foreach (var gun in guns)
+        {
+            gun.SetActive(false);
         }
     }
 }

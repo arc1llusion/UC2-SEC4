@@ -14,9 +14,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     int score = 100;
 
-    private Scoreboard scoreboard;
+    [SerializeField]
+    int hitsUntilDeath = 10;
 
-    private bool hasBeenhit = false;
+    private Scoreboard scoreboard;
 
     void Start()
     {
@@ -28,16 +29,25 @@ public class EnemyController : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        if (!hasBeenhit)
+        ProcessHit();
+
+        if (hitsUntilDeath <= 0)
         {
-            hasBeenhit = true;
-
-            var obj = Instantiate(deathFxPrefab, transform.position, Quaternion.identity);
-            obj.transform.parent = parent;
-
-            scoreboard.ScoreHit(score);
-
-            Destroy(gameObject);
+            KillEnemy();
         }
+    }
+
+    private void ProcessHit()
+    {
+        scoreboard.ScoreHit(score);
+        hitsUntilDeath--;
+    }
+
+    void KillEnemy()
+    {
+        var obj = Instantiate(deathFxPrefab, transform.position, Quaternion.identity);
+        obj.transform.parent = parent;
+
+        Destroy(gameObject);
     }
 }
