@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour
 
     private Scoreboard scoreboard;
 
+    private bool hasBeenhit = false;
+
     void Start()
     {
         var collider = gameObject.AddComponent<BoxCollider>();
@@ -26,11 +28,16 @@ public class EnemyController : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        var obj = Instantiate(deathFxPrefab, transform.position, Quaternion.identity);
-        obj.transform.parent = parent;
+        if (!hasBeenhit)
+        {
+            hasBeenhit = true;
 
-        scoreboard.ScoreHit(score);
+            var obj = Instantiate(deathFxPrefab, transform.position, Quaternion.identity);
+            obj.transform.parent = parent;
 
-        Destroy(gameObject);
+            scoreboard.ScoreHit(score);
+
+            Destroy(gameObject);
+        }
     }
 }

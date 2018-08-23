@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469320689751860}
   m_LocalRotation: {x: -0.53585863, y: -0, z: 0.8443077, w: 0}
-  m_LocalPosition: {x: 542.8, y: 7.42, z: 602.48}
+  m_LocalPosition: {x: 74.804474, y: 115.58307, z: -222.8596}
   m_LocalScale: {x: 28.940279, y: 28.940275, z: 28.940279}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,3 +98,4 @@ MonoBehaviour:
   deathFxPrefab: {fileID: 1629851959943020, guid: ce1dd81c4bacd444dae3a6426683f452,
     type: 2}
   parent: {fileID: 0}
+  score: 500

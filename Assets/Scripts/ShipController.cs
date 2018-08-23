@@ -111,5 +111,9 @@ public class ShipController : MonoBehaviour
     public void OnPlayerDeath()
     {
         isControlEnabled = false;
+        foreach (var bullet in bullets)
+        {
+            bullet.Stop();
+        }
     }
 }
