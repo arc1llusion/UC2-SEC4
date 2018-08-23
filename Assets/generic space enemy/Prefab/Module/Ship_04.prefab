@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathFxPrefab: {fileID: 1629851959943020, guid: ce1dd81c4bacd444dae3a6426683f452,
     type: 2}
+  parent: {fileID: 0}

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 enum CommonAxis
 {
     Horizontal,
-    Vertical
+    Vertical,
+    Fire1
 }
 
 public class ShipController : MonoBehaviour
@@ -31,12 +33,16 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     float controlRollFactor = -25;
 
+    private ParticleSystem[] bullets;
+
     public bool isControlEnabled = true;
 
     // Use this for initialization
     void Start()
     {
+        bullets = GetComponentsInChildren<ParticleSystem>().Where(p => p.gameObject.name.ToUpper().Contains("BULLET")).ToArray();
 
+        Debug.Log(bullets.Length);
     }
 
     // Update is called once per frame
@@ -44,8 +50,27 @@ public class ShipController : MonoBehaviour
     {
         if (isControlEnabled)
         {
+            ProcessFire();
             ProcessTranslation();
             ProcessRotation();
+        }
+    }
+
+    private void ProcessFire()
+    {
+        if(CrossPlatformInputManager.GetButtonDown(CommonAxis.Fire1.ToString()))
+        {
+            foreach(var bullet in bullets)
+            {
+                bullet.Play();
+            }
+        }
+        else if(CrossPlatformInputManager.GetButtonUp(CommonAxis.Fire1.ToString()))
+        {
+            foreach(var bullet in bullets)
+            {
+                bullet.Stop();
+            }
         }
     }
 
@@ -61,6 +86,8 @@ public class ShipController : MonoBehaviour
     {
         float xThrow = CrossPlatformInputManager.GetAxis(CommonAxis.Horizontal.ToString());
         float yThrow = CrossPlatformInputManager.GetAxis(CommonAxis.Vertical.ToString());
+
+        Debug.Log("x Throw" + xThrow);
 
         float pitchDueToPosition = transform.localPosition.y * pitchFactor;
         float pitchDueToControlFlow = yThrow * controlPitchFactor;
