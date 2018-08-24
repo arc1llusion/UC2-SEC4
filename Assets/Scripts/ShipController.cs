@@ -34,13 +34,16 @@ public class ShipController : MonoBehaviour
     float controlRollFactor = -25;
 
     [SerializeField]
-    GameObject[] guns;
+    ParticleSystem[] guns;
+
+    private ParticleSystem.EmissionModule[] emissions;
 
     public bool isControlEnabled = true;
 
     // Use this for initialization
     void Start()
     {
+        emissions = guns.Select(g => g.emission).ToArray();
     }
 
     // Update is called once per frame
@@ -108,7 +111,10 @@ public class ShipController : MonoBehaviour
     {
         foreach (var gun in guns)
         {
-            gun.SetActive(true);
+            var emission = gun.emission;
+            emission.enabled = true;
+
+            Debug.Log(gun.emission.enabled);
         }
     }
 
@@ -116,7 +122,8 @@ public class ShipController : MonoBehaviour
     {
         foreach (var gun in guns)
         {
-            gun.SetActive(false);
+            var emission = gun.emission;
+            emission.enabled = false;
         }
     }
 }
