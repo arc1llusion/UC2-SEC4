@@ -113,8 +113,6 @@ public class ShipController : MonoBehaviour
         {
             var emission = gun.emission;
             emission.enabled = true;
-
-            Debug.Log(gun.emission.enabled);
         }
     }
 
